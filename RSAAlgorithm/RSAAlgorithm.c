@@ -3,7 +3,7 @@
 //
 
 #include "RSAAlgorithm.h"
-#include "../Constants.h"
+#include "Constants.h"
 
 //Encryption and decryption of characters
 int encryptCharacter(int l) {
@@ -28,29 +28,11 @@ long long int RSA_modulo(int b, int d, int n) {
     }
 }
 
-//Characters <-> Int value conversion
-
-/**
- * Do conversion
- * space (' ') -> 0
- * a -> 1
- * b -> 2
- * ...
- * z -> 26
- */
 int convertCharacterToInt(char c) {
     if (c == ' ') return 0;
-    return (int)(c - CONVERSION_CONST);
+    return (c - CONVERSION_CONST);
 }
 
-/**
- * Do conversion
- * 0 -> space (' ')
- * 1 -> a
- * 2 -> b
- * ...
- * 26 -> z
- * */
 char convertIntToCharacter(int l) {
     if (l == 0) return ' ';
     return (char) (l + CONVERSION_CONST);
