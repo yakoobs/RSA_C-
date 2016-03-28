@@ -3,5 +3,5 @@ project(RSA)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
 
-set(SOURCE_FILES main.c RSAAlgorithm/Constants.h RSAAlgorithm/RSAAlgorithm.h RSAAlgorithm/RSAAlgorithm.c RSAAlgorithm/RSAAlgorithm.h)
+set(SOURCE_FILES main.c RSAAlgorithm/Constants.h RSAAlgorithm/RSAAlgorithm.h RSAAlgorithm/RSAAlgorithm.c RSAAlgorithm/RSAAlgorithm.h "Etap1/Etap1.c" "Etap1/Etap1.h")
 add_executable(RSA ${SOURCE_FILES})

@@ -5,7 +5,6 @@
 #include "RSAAlgorithm.h"
 #include "Constants.h"
 
-//Encryption and decryption of characters
 int encryptCharacter(int l) {
     return RSA_modulo(l, PUBLIC_KEY_e, PUBLIC_KEY_n);
 }
@@ -14,8 +13,6 @@ int decryptCharacter(int c) {
     return RSA_modulo(c, PRIVATE_KEY_d, PRIVATE_KEY_n);
 }
 
-
-//Calculating
 long long int square(long long arg) { return arg * arg; }
 
 long long int RSA_modulo(int b, int d, int n) {
