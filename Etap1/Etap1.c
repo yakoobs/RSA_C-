@@ -28,9 +28,9 @@ void loadTextFromFile() {
     textLength = (length <= MAX_TEXT_LENGTH) ? length : MAX_TEXT_LENGTH; /* if text is too long cut it down */
     rewind( fp );
 
-    textBuffer = calloc( 1, textLength+1 );
-    encodedText = calloc( 1, textLength+1 );
-    decodedText = calloc( 1, textLength+1 );
+    textBuffer = calloc( 1, textLength + 1 );
+    encodedText = calloc( 1, textLength + 1 );
+    decodedText = calloc( 1, textLength + 1 );
 
     if( !textBuffer ) fclose(fp),fputs("memory alloc fails",stderr),exit(1);
 
@@ -80,21 +80,18 @@ void writeToFile(char* filePath, char* text) {
 
 void testEncryption() {
 
-    loadTextFromFile();
-    encryptText();
-
-    saveEncodedTextToFile();
-    decryptText();
-    saveDecodedTextToFile();
-
-    printf("\nDECODED: %s", decodedText) ;
-
-    int isCorrectlyDecoded = (strcmp(textBuffer, decodedText) == 0);
-    if (isCorrectlyDecoded) {
-        printf("\nText has been decoded CORRECTLY");
-    } else {
-        printf("\nText has been decodedText INCORRECTLY");
-    }
+    encryptFile();
+//    decryptText();
+//    saveDecodedTextToFile();
+//
+//    printf("\nDECODED: %s", decodedText) ;
+//
+//    int isCorrectlyDecoded = (strcmp(textBuffer, decodedText) == 0);
+//    if (isCorrectlyDecoded) {
+//        printf("\nText has been decoded CORRECTLY");
+//    } else {
+//        printf("\nText has been decodedText INCORRECTLY");
+//    }
 }
 
 void encryptText() {
@@ -113,4 +110,16 @@ void decryptText() {
     for(int i = 0; i < len; i++) {
         decodedText[i] = convertIntToCharacter(decryptCharacter(encoded[i]));
     }
+}
+
+void encryptFile() {
+    loadTextFromFile();
+    encryptText();
+    saveEncodedTextToFile();
+}
+
+void decryptFile() {
+    loadEncodedTextFromFile();
+    decryptText();
+    saveDecodedTextToFile();
 }

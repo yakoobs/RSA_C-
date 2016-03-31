@@ -5,6 +5,9 @@
 #ifndef RSA_TESTETAPI_H
 #define RSA_TESTETAPI_H
 
+void encryptFile();
+void decryptFile();
+
 void encryptText();
 void decryptText();
 void testEncryption();
