@@ -18,9 +18,21 @@ char* encodedText;
 char* decodedText;
 
 void writeToFile(char* filePath, char* text);
+void loadEncodedTextFromFile();
 
+void encryptFile() {
+    loadClearTextFromFile();
+    encryptText();
+    saveEncodedTextToFile();
+}
 
-void loadTextFromFile() {
+void decryptFile() {
+    loadEncodedTextFromFile();
+    decryptText();
+    saveDecodedTextToFile();
+}
+
+void loadClearTextFromFile() {
     FILE *fp = fopen(TEXT_FILE_PATH, "r");
     if( !fp ) perror(TEXT_FILE_PATH),exit(1);
     fseek( fp , 0L , SEEK_END);
@@ -52,13 +64,24 @@ void loadEncodedTextFromFile() {
     char * line = NULL;
     size_t len = 0;
     int index = 0;
+    ssize_t read;
 
     FILE *fp = fopen(ENCODED_TEXT_FILE_PATH, "r");
     if( !fp ) perror(ENCODED_TEXT_FILE_PATH),exit(1);
+    fseek( fp , 0L , SEEK_END);
+    long length = ftell( fp );
+    textLength = (length <= MAX_TEXT_LENGTH) ? length : MAX_TEXT_LENGTH; /* if text is too long cut it down */
+    rewind( fp );
 
-    while (getline(&line, &len, fp) < 0) {
-        encoded[index++] = atoi(line);
+    textLength = 0;
+    while ((read = getline(&line, &len, fp)) != -1) {
+        textBuffer[index++] = atoi(line);
+        textLength++;
     }
+
+    textBuffer = calloc( 1, textLength + 1 );
+    encodedText = calloc( 1, textLength + 1 );
+    decodedText = calloc( 1, textLength + 1 );
 
     fclose(fp);
 }
@@ -80,7 +103,7 @@ void writeToFile(char* filePath, char* text) {
 
 void testEncryption() {
 
-    encryptFile();
+//    encryptFile();
 //    decryptText();
 //    saveDecodedTextToFile();
 //
@@ -92,6 +115,9 @@ void testEncryption() {
 //    } else {
 //        printf("\nText has been decodedText INCORRECTLY");
 //    }
+
+    decryptFile();
+
 }
 
 void encryptText() {
@@ -108,18 +134,6 @@ void decryptText() {
     size_t len = textLength;
 
     for(int i = 0; i < len; i++) {
-        decodedText[i] = convertIntToCharacter(decryptCharacter(encoded[i]));
+        decodedText[i] = convertIntToCharacter(decryptCharacter(textBuffer[i]));
     }
-}
-
-void encryptFile() {
-    loadTextFromFile();
-    encryptText();
-    saveEncodedTextToFile();
-}
-
-void decryptFile() {
-    loadEncodedTextFromFile();
-    decryptText();
-    saveDecodedTextToFile();
 }

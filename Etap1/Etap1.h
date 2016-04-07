@@ -23,6 +23,6 @@ void testEncryption();
  */
 void saveEncodedTextToFile();
 void saveDecodedTextToFile();
-void loadTextFromFile();
+void loadClearTextFromFile();
 
 #endif //RSA_TESTETAPI_H
