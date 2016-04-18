@@ -14,7 +14,6 @@
 char* textBuffer;
 long textLength;
 long int encoded[MAX_TEXT_LENGTH];
-char* encodedText;
 char* decodedText;
 
 void writeToFile(char* filePath, char* text);
@@ -65,7 +64,6 @@ void loadClearTextFromFile() {
     rewind( fp );
 
     textBuffer = calloc( 1, textLength + 1 );
-    encodedText = calloc( 1, textLength + 1 );
     decodedText = calloc( 1, textLength + 1 );
 
     if( !textBuffer ) fclose(fp),fputs("memory alloc fails",stderr),exit(1);
@@ -82,7 +80,6 @@ void encryptText() {
 
     for(int i = 0; i < len; i++) {
         encoded[i] = encryptCharacter(convertCharacterToInt(text[i]));
-        printf("%ld ", encoded[i]) ;
     }
 }
 
@@ -130,7 +127,6 @@ void loadEncodedTextFromFile() {
     } while (ch != EOF);
 
     textBuffer = calloc( 1, textLength + 1 );
-    encodedText = calloc( 1, textLength + 1 );
     decodedText = calloc( 1, textLength + 1 );
 
     rewind( fp );
