@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
 
 #define NUMBER_OF_PROCESSORS 2
 
@@ -24,22 +24,19 @@ void loadEncodedTextFromFile();
 
 
 
-void testEncryption() {
+void test() {
 
-//    encryptFile();
-//    decryptText();
-//    saveDecodedTextToFile();
-//
-//    printf("\nDECODED: %s", decodedText) ;
-//
-//    int isCorrectlyDecoded = (strcmp(textBuffer, decodedText) == 0);
-//    if (isCorrectlyDecoded) {
-//        printf("\nText has been decoded CORRECTLY");
-//    } else {
-//        printf("\nText has been decodedText INCORRECTLY");
-//    }
+    clock_t start = clock();
+    encryptFile();
+    clock_t end = clock();
+    float seconds = (float)(end - start) / CLOCKS_PER_SEC;
+    printf("\nEncryption time: %f", seconds);
 
+    start = clock();
     decryptFile();
+    end = clock();
+    seconds = (float)(end - start) / CLOCKS_PER_SEC;
+    printf("\nDecryption time: %f", seconds);
 
 }
 

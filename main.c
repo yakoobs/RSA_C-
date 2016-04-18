@@ -5,6 +5,6 @@
 #include "Etap1/Etap1.h"
 
 int main() {
-    testEncryption();
+    test();
     return EXIT_SUCCESS;
 }

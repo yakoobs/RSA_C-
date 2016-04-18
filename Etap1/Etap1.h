@@ -10,9 +10,9 @@ void decryptFile();
 
 void encryptText();
 void decryptText();
-void testEncryption();
+void test();
 
-#define MAX_TEXT_LENGTH 2048
+#define MAX_TEXT_LENGTH 4096
 #define TEXT_FILE_PATH "/Users/kuba.sokolowski/Desktop/text.txt"
 #define ENCODED_TEXT_FILE_PATH "/Users/kuba.sokolowski/Desktop/encodedText.txt"
 #define DECODED_TEXT_FILE_PATH "/Users/kuba.sokolowski/Desktop/decodedText.txt"
