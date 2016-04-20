@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 #define NUMBER_OF_PROCESSORS 2
 
@@ -15,10 +16,11 @@ char* textBuffer;
 long textLength;
 long int encoded[MAX_TEXT_LENGTH];
 char* decodedText;
+long indexes[NUMBER_OF_PROCESSORS + 1];
 
 void writeToFile(char* filePath, char* text);
 void loadEncodedTextFromFile();
-
+void splitIntoIndexes();
 
 
 
@@ -51,6 +53,7 @@ void test() {
 
 void encryptFile() {
     loadClearTextFromFile();
+    splitIntoIndexes();
     encryptText();
     saveEncodedTextToFile();
 }
@@ -74,12 +77,13 @@ void loadClearTextFromFile() {
     fclose(fp);
 }
 
-void encryptText() {
+void encryptText(long fromIndex, long toIndex) {
     const char* text = textBuffer;
-    size_t len = strlen(text);
 
-    for(int i = 0; i < len; i++) {
-        encoded[i] = encryptCharacter(convertCharacterToInt(text[i]));
+    for (int i = 0; i < NUMBER_OF_PROCESSORS; i++) {
+        for(int k = indexes[i]; k < indexes[i+1]; k++) {
+            encoded[k] = encryptCharacter(convertCharacterToInt(text[k]));
+        }
     }
 }
 
@@ -103,6 +107,7 @@ void saveEncodedTextToFile() {
 
 void decryptFile() {
     loadEncodedTextFromFile();
+    splitIntoIndexes();
     decryptText();
     saveDecodedTextToFile();
 }
@@ -139,10 +144,10 @@ void loadEncodedTextFromFile() {
 }
 
 void decryptText() {
-    size_t len = textLength;
-
-    for(int i = 0; i < len; i++) {
-        decodedText[i] = convertIntToCharacter(decryptCharacter(encoded[i]));
+    for (int i = 0; i < NUMBER_OF_PROCESSORS; i++) {
+        for(int k = indexes[i]; k < indexes[i+1]; k++) {
+            decodedText[k] = convertIntToCharacter(decryptCharacter(encoded[k]));
+        }
     }
 }
 
@@ -158,4 +163,13 @@ void writeToFile(char* filePath, char* text) {
         fputs("No text has been written",stderr),exit(1);
     }
     fclose(fp);
+}
+
+
+void splitIntoIndexes() {
+    indexes[0] = 0;
+    for (int i = 1; i < NUMBER_OF_PROCESSORS; i++) {
+        indexes[i] = i*floor(textLength/NUMBER_OF_PROCESSORS);
+    }
+    indexes[NUMBER_OF_PROCESSORS] = textLength;
 }
